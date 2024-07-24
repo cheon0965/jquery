@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .active{
+            background-color: greenyellow;
+        }
+    </style>
+</head>
+<body>
+    <input id="txtWord"><button type="button" id="btnAdd">추가</button>
+    <div id="divWords">
+        <div>그룹 이벤트 연습</div>
+        <p class="word">blue</p>
+        <p class="word">black</p>
+        <p class="word">red</p>
+        <p class="word">green</p>    
+    </div>
+    <script>
+        //p 태그를 클릭하면 배경색 변경
+        function changColor(){
+                event.target.classList.toggle('active');
+            }
+        //추가버튼 클릭하면 input태그의 값을 p태그 만들어서 추가
+        let btn = document.getElementById('btnAdd');
+        let txt = document.getElementById('txtWord');
+        btn.addEventListener('click', makeRow);
+        txt.addEventListener('keypress', function(e){
+            if(e.keyCode == 13)makeRow();
+        });
+        function makeRow(){
+            let p = `<p class='word' >${txt.value}</p>`  ;          
+            document.querySelector('#divWords').insertAdjacentHTML('beforeend',p);
+            txt.value = '';            
+        }
+        // 그룹이벤트(이벤트 위임) 이벤트 전파 계념
+        document.getElementById('divWords').addEventListener('click', function(){
+            if(event.target.classList.contains('word'))changColor();
+        })
+
+        //
+
+    </script>
+    
+</body>
+</html>

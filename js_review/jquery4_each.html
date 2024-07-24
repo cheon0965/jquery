@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>jquery4_each</title>
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.js"
+      integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <button>+</button><input value="1" /><span>200</span><br />
+    <button>+</button><input value="2" /><span>200</span><br />
+    <button>+</button><input value="3" /><span>200</span><br />
+    <div></div>
+
+    <script>
+      cntUp();
+      jsTotal();
+      jqueryTotal();
+
+      // js
+      function jsTotal() {
+        let sum = 0;
+        document.querySelectorAll('input').forEach((ele) => {
+          sum += Number(ele.value);
+        });
+        let total = `<p>js합: ${sum}</p>`;
+        document.querySelector('div').insertAdjacentHTML('beforeend', total);
+      }
+
+      // jquery
+      function jqueryTotal() {
+        sum = 0;
+        $('input').each((i, ele) => {
+          sum += $(ele).val() * $(ele).next().html();
+        });
+        $('div').append(`<p>jquery합: ${sum}</p>`);
+      }
+
+      // +버튼
+      function cntUp() {
+        $('button').on('click', function () {
+          // next() 테그값읽기
+          let value = Number($(event.target).next().val());
+          //1증가
+          value = value + 1;
+
+          // 인풋테그 값 변경
+          $(event.target).next().val(value);
+          $('div').html('');
+          jsTotal();
+          jqueryTotal();
+        });
+      }
+    </script>
+  </body>
+</html>

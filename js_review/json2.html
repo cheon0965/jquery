@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <input id="txtDt" value="20240717" /><button type="button" id="btnDt">
+      조회
+    </button>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>순위</th>
+          <th>제목</th>
+          <th>개봉일자</th>
+          <th>선택</th>
+        </tr>
+      </thead>
+      <tbody id="result"></tbody>
+    </table>
+    <div id="info"></div>
+    <script>
+      //-------------------
+      // 조회버튼 이벤트 핸들러( 박스오피스 조회 )
+      //-------------------
+      btnDt.addEventListener("click", function () {
+        let url =
+          "https://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=f5eef3421c602c6cb7ea224104795888&targetDt=" +
+          txtDt.value;
+
+        fetch(url)
+          .then((result) => result.json())
+          .then((result) => movieListHandler(result));
+      });
+
+      //-------------------
+      // 박스오피스 조회결과 처리
+      //-------------------
+      function movieListHandler(movieList) {
+        //첫번째 영화의 제목만 출력
+        console.log(movieList.boxOfficeResult.dailyBoxOfficeList[0].movieNm);
+
+        let list = movieList.boxOfficeResult.dailyBoxOfficeList;
+        //영화목록 비우기
+        result.innerHTML = "";
+        list.forEach((ele) => {
+          let tr = `<tr data-cd="${ele.movieCd}">
+          <td>${ele.rank}</td>
+          <td>${ele.movieNm}</td>
+          <td>${ele.openDt}</td>
+          <td><button>선택</button></td>
+          </tr>`;
+          result.insertAdjacentHTML("beforeend", tr);
+        });
+      }
+
+      //-------------------
+      // 영화선택 핸들러( 영화 상세정보 조회  )
+      //-------------------
+      //그룹이벤트   tbody ->  button -> closet  tr -> data-cd alert
+      result.addEventListener("click", function () {
+        if (event.target.tagName == "BUTTON") {
+          let movieCd = event.target.closest("tr").dataset.cd;
+          alert(movieCd);
+          //fetch => 영화상세 정보 -> 첫번째 감독, 출연배우들 정보를 div#info 에 출력
+        }
+      });
+    </script>
+  </body>
+</html>

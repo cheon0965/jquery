@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>hw1</title>
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.js"
+      integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <!-- 과제 -->
+    <h1>이미지 슬라이더</h1>
+    <button>◀</button><img src="img/boxer.jpeg" alt="" /><button>▶</button><br />
+
+    <script>
+      window.setInterval(moveR, 2000);
+      let idx = 0;
+      let arr = ['img/boxer.jpeg', 'img/french-bulldog.jpeg', 'img/golden-retriever.jpeg', 'img/scottish-terrier.jpeg'];
+      $('button').on('click', function () {
+        if ($(this).text() == '◀') {
+          moveL();
+        } else if ($(this).text() == '▶') {
+          moveR();
+        }
+      });
+
+      // 왼쪽으로 이동 버튼 클릭시
+      function moveL() {
+        if (idx == 0) {
+          idx = 3;
+        } else {
+          idx = idx - 1;
+        }
+        $('img').attr('src', arr[idx]);
+      }
+
+      // 오른쪽으로 이동 버튼 클릭시
+      function moveR() {
+        if (idx == 3) {
+          idx = 0;
+        } else {
+          idx = idx + 1;
+        }
+        $('img').attr('src', arr[idx]);
+      }
+    </script>
+  </body>
+</html>

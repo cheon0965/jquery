@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>jquery5.ajax</title>
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.js"
+      integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <button id="restBtn">초기화</button>
+    <button id="addBtn">등록</button>
+    <button id="modiBtn">수정</button>
+    <button id="delBtn">삭제</button>
+    <form id="frm">
+      userId<input type="text" name="userId" id="userId" /><br />
+      id<input type="text" name="id" id="id" /><br />
+      title<input type="text" name="title" id="title" /><br />
+      completed <input type="text" name="completed" id="completed" /><br />
+    </form>
+    <div id="list"></div>
+
+    <script>
+      // 조회 table 출력
+      let url = 'https://jsonplaceholder.typicode.com/todos';
+      $.ajax(url).then((result) => {
+        result.forEach((element) => {
+          let name = `<div>${element.id}. ${element.title}<button data-id = '${element.id}'>조회</button></div>`;
+          $('div#list').append(name);
+        });
+      });
+
+      $('#addBtn').on('click', function () {
+        $.ajax(url, {
+          async: false, // 동기방식
+          method: 'POST',
+          contentType: 'application/json',
+          data: JSON.stringify({
+            title: $('#title').val(),
+            userId: $('#userId').val(),
+            completed: $('#completed').val(),
+          }),
+          success: function () {},
+          error: function () {},
+        }).then((result) => {
+          let name = `<div>${result.id}. ${result.title}<button data-id = '${result.id}'>조회</button></div>`;
+          $('#list').prepend(name);
+        });
+      });
+    </script>
+  </body>
+</html>

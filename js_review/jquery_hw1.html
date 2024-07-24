@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>jquery_hw1.html</title>
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.js"
+      integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <button id="btnNext">다음문제</button>
+    <input type="text" name="" id="num1" />+ <input type="text" name="" id="num2" />=
+    <input type="text" name="" id="result" />
+    <button id="btnConfirm">결과확인</button>
+    <script>
+      // jquery
+      // btnNext 클릭하면 1~10 난수를 생성해서 num1, num2 인풋태그에 저장
+      $('#btnNext').on('click', function () {
+        $('#num1').val(Math.floor(Math.random() * 10 + 1));
+        $('#num2').val(Math.floor(Math.random() * 10 + 1));
+      });
+
+      // btnConfirm 클릭하면 두수의 합과 result가 같은지 결과 출력(alert)
+      $('#btnConfirm').on('click', function () {
+        if (Number($('#num1').val()) + Number($('#num2').val()) == $('#result').val()) {
+          alert('정답입니다.');
+        } else {
+          alert('오답입니다.');
+        }
+      });
+    </script>
+  </body>
+</html>

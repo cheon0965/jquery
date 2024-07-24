@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>jquery4_each_homework</title>
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.js"
+      integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <button>-</button><input value="1" size="3" /><button>+</button><span>100</span><br />
+    <button>-</button><input value="1" size="3" /><button>+</button><span>200</span><br />
+    <button>-</button><input value="1" size="3" /><button>+</button><span>300</span><br />
+    <div id="result"></div>
+
+    <script>
+      cntUp();
+      jsTotal();
+      jqueryTotal();
+
+      // js
+      function jsTotal() {
+        let sum = 0;
+        document.querySelectorAll('input').forEach((ele) => {
+          sum += Number(ele.value);
+        });
+        let total = `<p>js합: ${sum}</p>`;
+        document.querySelector('div#result').insertAdjacentHTML('beforeend', total);
+      }
+
+      // jquery
+      function jqueryTotal() {
+        sum = 0;
+        $('input').each((i, ele) => {
+          let $cnt = $(ele).val();
+          if ($cnt < 0) {
+            return false; // beak 기능
+          }
+          sum += $cnt * $(ele).next().next().text();
+        });
+        $('div#result').append(`<p>jquery합: ${sum}</p>`);
+      }
+
+      // 버튼
+      function cntUp() {
+        $('button').on('click', function () {
+          if ($(this).text() == '+') {
+            // next() 테그값읽기
+            let value = Number($(event.target).prev().val());
+            //1증가
+            value = value + 1;
+
+            // 인풋테그 값 변경
+            $(event.target).prev().val(value);
+            $('div#result').html('');
+            jsTotal();
+            jqueryTotal();
+          } else if ($(this).text() == '-') {
+            let value = Number($(event.target).next().val());
+            //1증가
+            value = value - 1;
+
+            // 인풋테그 값 변경
+            $(event.target).next().val(value);
+            $('div#result').html('');
+            jsTotal();
+            jqueryTotal();
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

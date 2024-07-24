@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>jquertTab.html</title>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css" />
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.js"
+      integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
+    <script>
+      $(function () {
+        $('#tabs').tabs();
+      });
+    </script>
+  </head>
+  <body>
+    <div id="tabs">
+      <ul>
+        <li><a href="#tabs-1">Preloaded</a></li>
+        <li><a href="hw1.html">Tab 1</a></li>
+        <li><a href="hw2.html">Tab 2</a></li>
+        <li><a href="jquery4_each_homework.html">Tab 3 (slow)</a></li>
+      </ul>
+      <div id="tabs-1">
+        <p>첫번째 목록</p>
+      </div>
+    </div>
+  </body>
+</html>

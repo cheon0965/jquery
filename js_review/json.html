@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.js"
+      integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <input type="text" name="txtDt" id="txtDt" value="20240717" /><button type="button" id="btnDt">입력</button>
+    <table style="border-collapse: collapse" border="1">
+      <thead>
+        <tr>
+          <th>순위</th>
+          <th>제목</th>
+          <th>개봉일자</th>
+          <th>선택</th>
+        </tr>
+      </thead>
+      <tbody id="result"></tbody>
+    </table>
+    <br />
+    <div id="info"></div>
+    <script>
+      // let data = { name: 'park', age: 20, hobby: ['독서', '게임'] };
+      // console.log(data.hobby[1]);
+
+      // let users = [
+      //   { name: 'park', age: 20, hobby: ['독서', '게임'] },
+      //   { name: 'kim', age: 25, hobby: ['잠자기', '게임'] },
+      // ];
+      // console.log(users[1].hobby[0]);
+      // console.log(users.length);
+      // //---------------------------
+      // fetch 조회버튼 이벤트 핸들러
+      //---------------------------
+      document.getElementById('btnDt').addEventListener('click', select);
+      document.getElementById('btnDt').click();
+
+      function select() {
+        let txtDt = document.getElementById('txtDt');
+        fetch(
+          `https://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=f5eef3421c602c6cb7ea224104795888&targetDt=${txtDt.value}`
+        )
+          .then((result) => result.json())
+          .then((result) => moveListHandler(result));
+      }
+      //---------------------------
+      // fetch 조회결과 처리
+      //---------------------------
+      function moveListHandler(moveList) {
+        console.log(moveList.boxOfficeResult.dailyBoxOfficeList[0].movieNm);
+        let list = moveList.boxOfficeResult.dailyBoxOfficeList;
+        document.getElementById('result').innerHTML = '';
+        for (let i of list) {
+          let name = `<tr data-cd ='${i.movieCd}'>
+                     <td>${i.rank}</td>
+                     <td>${i.movieNm}</td>
+                     <td>${i.openDt}</td>
+                     <td><button>선택</button></td>
+                   </tr>`;
+          document.getElementById('result').insertAdjacentHTML('beforeend', name);
+        }
+      }
+
+      //---------------------------
+      // fetch 영화코드 버튼
+      //---------------------------
+      document.getElementById('result').addEventListener('click', function () {
+        if (event.target.tagName == 'BUTTON') {
+          let cd = event.target.closest('tr').dataset.cd;
+          //fetch => 영화상세 정보 -> 첫번째 감독, 출연배우들 정보를 div#info 에 출력
+          fetch(
+            `https://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json?key=f5eef3421c602c6cb7ea224104795888&movieCd=${cd}`
+          )
+            .then((result) => result.json())
+            .then((result) => {
+              document.getElementById('info').innerHTML = '';
+              let directors = result.movieInfoResult.movieInfo.directors[0].peopleNm;
+              let table = `<table style="border-collapse: collapse" border="1">
+                            <thead>
+                                <tr>
+                                <th>감독</th>
+                                <td>${directors}</td>
+                                </tr>
+                            </thead>
+                            <tbody id="actor"></tbody>
+                            </table>`;
+              document.getElementById('info').insertAdjacentHTML('beforeend', table);
+              let actors = result.movieInfoResult.movieInfo.actors;
+              actors.forEach((element) => {
+                let name = '';
+                if (element.cast == '' || element.cast == null) {
+                  name = `<tr>
+                                  <th>배우</th>
+                                  <td>${element.peopleNm}</td>
+                              </tr>`;
+                } else {
+                  name = `<tr>
+                                  <th>배우</th>
+                                  <td>${element.cast}역 ${element.peopleNm}</td>
+                              </tr>`;
+                }
+                document.getElementById('actor').insertAdjacentHTML('beforeend', name);
+              });
+            });
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>jquery2_event</title>
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.js"
+      integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+      crossorigin="anonymous"
+    ></script>
+    <style>
+      .active {
+        background-color: yellowgreen;
+      }
+    </style>
+  </head>
+  <body>
+    <input type="text" name="" id="" /><button id="addBtn">추가</button><button id="toggleBtn">토글</button>
+    <div>
+      <p>사과</p>
+      <p>바나나</p>
+    </div>
+    <script>
+      //-----------------------------------------------
+      // 테그 클릭이벤트 걸어서 배경색 바꾸기 그룹 이벤트
+      //-----------------------------------------------
+      $('div').on('click', 'p', function () {
+        $(event.target).toggleClass('active');
+      });
+
+      //토글
+      $('#toggleBtn').on('click', function () {
+        $('div').slideToggle();
+      });
+      // 추가 ( .one()이벤트 사용시 한번만 시행됨 )
+      $('#addBtn').on('click', function () {
+        // console.log($('input').val());
+        let txt = $('input').val();
+        $('div').append(`<p>${txt}</p>`);
+      });
+    </script>
+  </body>
+</html>

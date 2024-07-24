@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <button id="restBtn">초기화</button>
+    <button id="addBtn">등록</button>
+    <button id="modiBtn">수정</button>
+    <button id="delBtn">삭제</button>
+    <form id="frm">
+      userId<input type="text" name="userId" id="userId" /><br />
+      id<input type="text" name="id" id="id" /><br />
+      title<input type="text" name="title" id="title" /><br />
+      completed <input type="text" name="completed" id="completed" /><br />
+    </form>
+    <div id="list"></div>
+
+    <script>
+      // 조회 table 출력
+      let url = 'https://jsonplaceholder.typicode.com/todos';
+      fetch(url)
+        .then((result) => result.json())
+        .then((result) => {
+          for (let i of result) {
+            // console.log(i.title);
+            let name = `<div>${i.id}. ${i.title}<button data-id = '${i.id}'>조회</button></div>`;
+            document.getElementById('list').insertAdjacentHTML('beforeend', name);
+          }
+        });
+      // 단건조회
+      document.getElementById('list').addEventListener('click', function () {
+        if (event.target.tagName == 'BUTTON') {
+          let id = event.target.dataset.id;
+          fetch(url + '/' + id)
+            .then((result) => result.json())
+            .then((result) => {
+              document.getElementById('userId').value = result.userId;
+              document.getElementById('id').value = result.id;
+              document.getElementById('title').value = result.title;
+              document.getElementById('completed').value = result.completed;
+            });
+        }
+      });
+
+      // 초기화
+      document.getElementById('restBtn').addEventListener('click', function () {
+        document.getElementById('frm').reset();
+      });
+
+      // 등록
+      document.getElementById('addBtn').addEventListener('click', function () {
+        let param = {
+          userId: document.getElementById('userId').value,
+          title: document.getElementById('title').value,
+          completed: document.getElementById('completed').value,
+        };
+        fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(param),
+        })
+          .then((result) => result.json())
+          .then((result) => {
+            let name = `<div>${result.id}. ${result.title}<button data-id = '${result.id}'>조회</button></div>`;
+            document.getElementById('list').insertAdjacentHTML('afterbegin', name);
+          });
+      });
+    </script>
+  </body>
+</html>
