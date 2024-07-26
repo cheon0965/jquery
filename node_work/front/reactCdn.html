@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <title>Document</title>
+  </head>
+  <body>
+    <script src="https://unpkg.com/react/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <div id="root"></div>
+    <script type="text/babel">
+      const imgYn = true;
+      const name = ['save', 'delete'];
+      const url = 'http://localhost:3000/customer';
+
+      function Customer() {
+        let [data, setData] = React.useState([]);
+        React.useEffect(async () => {
+          let result = await axios.get(url);
+          let customerData = result.data;
+          setData(customerData);
+        }, []);
+        function addCustommer() {
+          setData([...data, { id: 1, name: 'choi' }]);
+        }
+        return (
+          <div>
+            <button onClick={addCustommer}>추가</button>
+            <table>
+              <thead>
+                <tr>
+                  <th>번호</th>
+                  <th>이름</th>
+                  <th>이메일</th>
+                  <th>전화번호</th>
+                  <th>주소</th>
+                </tr>
+              </thead>
+              <tbody>
+                {data.map((ele) => (
+                  <tr key={ele.id}>
+                    <td>{ele.id}</td>
+                    <td>{ele.name}</td>
+                    <td>{ele.email}</td>
+                    <td>{ele.phone}</td>
+                    <td>{ele.address}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        );
+      }
+
+      function MyButton() {
+        return <button className="btn">{name}</button>;
+      }
+      function MyButton2() {
+        function handleClick() {
+          alert('You clicked me!');
+        }
+        return <button onClick={handleClick}>Click me</button>;
+      }
+      const imgSrc = { name: '벅서', src: './img/boxer.jpeg', desc: '강아지' };
+      const imgStyle = { width: '200px', border: '1px' };
+      const products = [
+        { title: 'Cabbage', id: 1 },
+        { title: 'Garlic', id: 2 },
+        { title: 'Apple', id: 3 },
+      ];
+      function MyImg() {
+        return (
+          <div>
+            <p>{imgSrc.name}</p>
+            <img className="avatar" src={imgSrc.src} alt={imgSrc.desc} style={imgStyle} />
+          </div>
+        );
+      }
+
+      const element = (
+        <div>
+          <h1>Hello, world!</h1>
+          {imgYn ? <MyImg /> : <MyButton />}
+          <ul>
+            {products.map((ele, idx) => (
+              <li key={idx}>{ele.title}</li>
+            ))}
+          </ul>
+          <Customer />
+          <MyButton2 />
+        </div>
+      );
+      const domContainer = document.querySelector('#root');
+      // ReactDOM.render(element, domContainer);
+      const root = ReactDOM.createRoot(domContainer);
+      root.render(element);
+    </script>
+  </body>
+</html>

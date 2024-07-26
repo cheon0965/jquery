@@ -6,14 +6,14 @@ const mysql = require('../mysql/pool');
 // 전체조회
 router
   .get('/', (req, res) => {
-    mysql.query(req.originalUrl, 'boardList').then((result) => {
+    mysql.query('board', 'boardList').then((result) => {
       res.send(result);
     });
   })
 
   // 단건조회
   .get('/:id', (req, res) => {
-    mysql.query('board', 'boardGet', { id: req.params.id }).then((result) => {
+    mysql.query('board', 'boardGet', { board_id: req.params.id }).then((result) => {
       res.send(result);
     });
   })
@@ -30,14 +30,14 @@ router
 
   // 수정
   .put('/:id', (req, res) => {
-    mysql.query('board', 'boardUpdate', [req.body, { id: req.params.id }]).then((result) => {
+    mysql.query('board', 'boardUpdate', [req.body, { board_id: req.params.id }]).then((result) => {
       res.send(result);
     });
   })
 
   // 삭제
   .delete('/:id', (req, res) => {
-    mysql.query('board', 'boardDelete', { id: req.params.id }).then((result) => {
+    mysql.query('board', 'boardDelete', { board_id: req.params.id }).then((result) => {
       res.send(result);
     });
   });
