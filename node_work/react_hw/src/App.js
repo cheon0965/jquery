@@ -10,11 +10,11 @@ const PRODUCTS = [
   { category: 'Vegetables', price: '$1', stocked: true, name: 'Peas' },
 ];
 
-export default function FilterableProductTable({ PRODUCTS }) {
+export default function FilterableProductTable() {
   return (
     <div>
       <SearchBar />
-      <ProductTable {...PRODUCTS} />
+      <ProductTable products= {PRODUCTS} />
     </div>
   );
 }
@@ -32,11 +32,11 @@ function ProductTable({ products }) {
   const rows = [];
   let lastCategory = null;
   products.forEach((element) => {
-    if (products.category !== lastCategory) {
-      rows.push(<ProductCategoryRow category={product.category} key={product.category} />);
+    if (element.category !== lastCategory) {
+      rows.push(<ProductCategoryRow category={element.category} key={element.category} />);
     }
-    rows.push(<ProductRow {...products} key={product.name} />);
-    lastCategory = products.category;
+    rows.push(<ProductRow product = {element} key={element.name} />);
+    lastCategory = element.category;
   });
   return (
     <table>
