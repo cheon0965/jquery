@@ -25,7 +25,7 @@ const session = require('express-session');
 const fileStore = require('session-file-store')(session);
 
 const app = express();
-const port = 3000;
+const port = 80;
 
 //쿠키
 app.use(cookieParser());
