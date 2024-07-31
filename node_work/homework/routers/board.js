@@ -6,8 +6,16 @@ const mysql = require('../mysql/pool');
 // 전체조회
 router
   .get('/', (req, res) => {
-    mysql.query('board', 'boardList').then((result) => {
-      res.send(result);
+    let page = req.query.page;
+    if (!page) {
+      page = 1;
+    }
+    let offset = (page - 1) * 10;
+
+    mysql.query('board', 'boardList', offset).then((list) => {
+      mysql.query('board', 'boardCount').then((total) => {
+        res.send({ list, total: total[0] });
+      });
     });
   })
 

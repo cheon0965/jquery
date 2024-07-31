@@ -10,32 +10,62 @@ const PRODUCTS = [
   { category: 'Vegetables', price: '$1', stocked: true, name: 'Peas' },
 ];
 
-export default function FilterableProductTable() {
+function FilterableProductTable() {
+  const [filterText, setFilterText] = useState('');
+  const [inStockOnly, setInStockOnly] = useState(false);
   return (
     <div>
-      <SearchBar />
-      <ProductTable products= {PRODUCTS} />
+      <SearchBar
+        filterText={filterText}
+        inStockOnly={inStockOnly}
+        onFilterTextChange={setFilterText}
+        onInStockOnlyChange={setInStockOnly}
+      />
+      <ProductTable filterText={filterText} inStockOnly={inStockOnly} products={PRODUCTS} />
     </div>
   );
 }
-function SearchBar() {
+
+function SearchBar({ filterText, inStockOnly, onFilterTextChange, onInStockOnlyChange }) {
   return (
     <form>
-      <input type="text" placeholder="Search..." />
+      <input
+        type="text"
+        placeholder="Search..."
+        value={filterText}
+        onChange={(e) => {
+          onFilterTextChange(e.target.value);
+        }}
+      />
+      <br />
       <label>
-        <input type="checkbox" /> Only show products in stock
+        <input
+          type="checkbox"
+          checked={inStockOnly}
+          onChange={(e) => {
+            onInStockOnlyChange(e.target.checked);
+          }}
+        />{' '}
+        Only show products in stock
       </label>
     </form>
   );
 }
-function ProductTable({ products }) {
+
+function ProductTable({ filterText, inStockOnly, products }) {
   const rows = [];
   let lastCategory = null;
   products.forEach((element) => {
+    if (element.name.toLowerCase().indexOf(filterText.toLowerCase()) === -1) {
+      return;
+    }
+    if (inStockOnly && !element.stocked) {
+      return;
+    }
     if (element.category !== lastCategory) {
       rows.push(<ProductCategoryRow category={element.category} key={element.category} />);
     }
-    rows.push(<ProductRow product = {element} key={element.name} />);
+    rows.push(<ProductRow product={element} key={element.name} />);
     lastCategory = element.category;
   });
   return (
@@ -65,4 +95,8 @@ function ProductRow({ product }) {
       <td>{product.price}</td>
     </tr>
   );
+}
+
+export default function App() {
+  return <FilterableProductTable products={PRODUCTS} />;
 }

@@ -1,6 +1,9 @@
 import './App.css';
 import Toolbar from './Event';
 
+// cors
+const cors = require('cors');
+
 // 컴포넌트
 function Header({ color = 'yellow', title, onChangMod }) {
   const chickHandler = (event) => {
