@@ -1,8 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
-import App from './board/BoardComponent';
+// import App from './layout_component';
+// import App from './Comp10_Styled';
+import App from './Comp14_ReduxToolkit';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 

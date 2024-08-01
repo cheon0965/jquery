@@ -1,5 +1,3 @@
-import Replys from './Replys';
-
 function Item({ name, isPacked }) {
   return (
     <li className="item">
@@ -34,7 +32,6 @@ export default function PackingList() {
         <Items todos={todos} />
       </ul>
       <h2>댓글리스트</h2>
-      <Replys datas={replys} />
     </section>
   );
 }

@@ -18,7 +18,7 @@ export default function BoardInsert() {
     axios.post('http://localhost:80/board', [board]).then((result) => {
       if (result.data[0].affectedRows == 1) {
         //목록 이동 (useNavigate)
-        navigater('/list');
+        navigater('/Board/list');
       } else {
         alert('등록오류');
       }

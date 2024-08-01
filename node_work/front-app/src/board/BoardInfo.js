@@ -19,7 +19,7 @@ export default function BoardInfo() {
     let real = window.confirm('정말 삭제하시겠습니까?');
     if (real) {
       axios.delete(`http://localhost:80/board/${board_id}`).then((result) => {
-        navigater('/list');
+        navigater('/Board/list');
       });
     }
   };
@@ -51,7 +51,7 @@ export default function BoardInfo() {
       <ButtonGroup aria-label="Basic example">
         <Button
           onClick={() => {
-            navigater(`/update/${board_id}`);
+            navigater(`/Board/update/${board_id}`);
           }}
         >
           수정

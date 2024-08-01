@@ -7,18 +7,23 @@ import { Row, Col, Nav } from 'react-bootstrap';
 import BoardInfo from './BoardInfo';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+import { useContext } from 'react';
+import { logInContext } from '../context';
+
 export default function BoardComponent() {
+  let logId = useContext(logInContext);
   return (
     <Container>
-      <Nav activeKey="/list" as="ul">
+      <h3>로그인: {logId.userid}</h3>
+      <Nav activeKey="/Board/list" as="ul">
         <Nav.Item as="li">
           <Nav.Link>
-            <NavLink to="/list">게시판</NavLink>
+            <NavLink to="/Board/list">게시판</NavLink>
           </Nav.Link>
         </Nav.Item>
         <Nav.Item as="li">
           <Nav.Link>
-            <NavLink to="/insert">글쓰기</NavLink>
+            <NavLink to="/Board/insert">글쓰기</NavLink>
           </Nav.Link>
         </Nav.Item>
       </Nav>

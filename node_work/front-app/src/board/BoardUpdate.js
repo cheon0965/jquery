@@ -30,7 +30,7 @@ export default function BoardUpdate() {
       .then((result) => {
         console.log(board);
 
-        navigater('/list');
+        navigater('/Board/list');
       });
   };
 
