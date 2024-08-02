@@ -9,6 +9,7 @@ var cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 // cors
 const cors = require('cors');
+app.use(express.static('public'));
 //multer 파일 업로드
 const multer = require('multer');
 const upload = multer({ dest: 'C:/temp/' });
